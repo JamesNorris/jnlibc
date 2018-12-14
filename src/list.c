@@ -32,13 +32,6 @@ void list_destroy(struct list* list, int free_data) {
 		cur = next;
 	}
 	
-	data = cur->data;
-	
-	if (data && free_data) {
-		free(data);
-	}
-	
-	free(cur);
 	free(list);
 }
 
@@ -67,7 +60,7 @@ int list_index_of(struct list* list, struct list_elem* elem) {
 	return index;
 }
 
-int list_index_of(struct list* list, void* data, compare_func func) {
+int list_index_of_data(struct list* list, void* data, compare_func func) {
 	ASSERT(list);
 	ASSERT(data);
 	ASSERT(func);
@@ -93,8 +86,8 @@ int list_contains(struct list* list, struct list_elem* elem) {
 	return list_index_of(list, elem) != -1;
 }
 
-int list_contains(struct list* list, void* data, compare_func func) {	
-	return list_index_of(list, data, func) != -1;
+int list_contains_data(struct list* list, void* data, compare_func func) {	
+	return list_index_of_data(list, data, func) != -1;
 }
 
 void* list_at(struct list* list, int index) {
@@ -276,7 +269,7 @@ void* list_pop_back(struct list* list) {
 	return data;
 }
 
-int list_remove(struct list* list, int index) {
+int list_remove_at(struct list* list, int index) {
 	ASSERT(list);
 	ASSERT(index >= 0);
 	ASSERT(index < list->size);
@@ -323,16 +316,16 @@ int list_remove(struct list* list, struct list_elem* elem) {
 	return 0;
 }
 
-int list_remove(struct list* list, void* data, compare_func func) {
+int list_remove_data(struct list* list, void* data, compare_func func) {
 	ASSERT(list);
 	ASSERT(data);
 	ASSERT(func);
 	
-	int index = list_index_of(list, data, func);
+	int index = list_index_of_data(list, data, func);
 	
 	if (index == -1) {
 		return -1;
 	}
 	
-	return list_remove(list, index);
+	return list_remove_at(list, index);
 }

@@ -43,8 +43,8 @@ int main(int argc, char* argv[]) {
 	
 	printf("END\n");
 	
-	printf("EXPECT 1: %d\n", list_contains(list, (void*) 500, &integer_compare));
-	printf("EXPECT 0: %d\n", list_contains(list, (void*) 525, &integer_compare));
+	printf("EXPECT 1: %d\n", list_contains_data(list, (void*) 500, &integer_compare));
+	printf("EXPECT 0: %d\n", list_contains_data(list, (void*) 525, &integer_compare));
 	
 	elem = list_begin(list);
 	for (int i = 0; i < list_size(list); i++) {
@@ -59,10 +59,10 @@ int main(int argc, char* argv[]) {
 	1500
 	*/
 	
-	printf("EXPECT 0: %d\n", list_contains(list, (void*) 500, &integer_compare));
+	printf("EXPECT 0: %d\n", list_contains_data(list, (void*) 500, &integer_compare));
 	
-	printf("EXPECT -1: %d\n", list_index_of(list, (void*) 500, &integer_compare));
-	printf("EXPECT 1: %d\n", list_index_of(list, (void*) 1500, &integer_compare));
+	printf("EXPECT -1: %d\n", list_index_of_data(list, (void*) 500, &integer_compare));
+	printf("EXPECT 1: %d\n", list_index_of_data(list, (void*) 1500, &integer_compare));
 	
 	elem = list_begin(list);
 	for (int i = 0; i < list_size(list); i++) {
@@ -82,9 +82,9 @@ int main(int argc, char* argv[]) {
 	
 	printf("EXPECT 1500: %d\n", voidptr_to_int(list_at(list, 0)));
 	
-	list_remove(list, (void*) 1500, &integer_compare);
+	list_remove_data(list, (void*) 1500, &integer_compare);
 	list_remove(list, list_begin(list));
-	list_remove(list, 0);
+	list_remove_at(list, 0);
 	
 	/*
 	EMPTY
@@ -97,6 +97,8 @@ int main(int argc, char* argv[]) {
 	printf("EXPECT 500: %d\n", list_at(list, 0));
 	
 	printf("EXPECT 0: %d\n", list_contains(list, (struct list_elem*) malloc(sizeof(struct list_elem))));
+	
+	list_destroy(list, 0);
 	
 	printf("TERMINATED");
 	
