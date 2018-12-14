@@ -8,9 +8,11 @@ LIBNAME=jnlibc
 TEST_EXE=test.exe
 TARFILE=$(LIBNAME).tar.gz
 
+LIBRARY_FILE=$(BASE_DIR)/lib$(LIBNAME).so
+
 HEADERS=$(wildcard $(SRC_DIR)/*.h)
 SOURCES=$(wildcard $(SRC_DIR)/*.c)
-OUTPUTS=$(wildcard $(SRC_DIR)/*.o)
+OUTPUTS=$(patsubst %.c,%.o,$(SOURCES))
 
 TEST_SOURCES=$(wildcard $(TEST_DIR)/*.c)
 TEST_OUTPUTS=$(wildcard $(TEST_DIR)/*.o)
@@ -19,11 +21,18 @@ archive:
 	tar -czvf $(TARFILE) $(SRC_DIR)
 
 library:
-	gcc -c $(HEADERS) $(SOURCES)
-	gcc -shared -fpic -o $(BASE_DIR)/lib$(LIBNAME).so $(OUTPUTS)
+	$(MAKE) library-outputs
+	$(MAKE) library-file
+
+library-outputs:
+	cd $(SRC_DIR) && \
+	gcc -c -fpic $(HEADERS) $(SOURCES)
+
+library-file: $(OUTPUTS)
+	gcc -shared -o $(LIBRARY_FILE) $(OUTPUTS)
 
 tests:
 	gcc -I$(SRC_DIR) $(HEADERS) $(SOURCES) $(TEST_SOURCES) -o $(BASE_DIR)/$(TEST_EXE)
 
 clean:
-	rm -rf list_test.exe *.gch $(OUTPUTS) $(TEST_OUTPUTS) lib$(LIBNAME).so $(TARFILE) $(TEST_EXE)
+	rm -rf *.gch $(OUTPUTS) $(TEST_OUTPUTS) $(LIBRARY_FILE) $(TARFILE) $(TEST_EXE)

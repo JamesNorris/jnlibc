@@ -1,6 +1,11 @@
+# outputs
 *.exe
-*.a
 *.gch
 *.o
 
+# library files
+*.a
+*.so
+
+# editor files
 .vscode
