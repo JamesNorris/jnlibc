@@ -24,12 +24,8 @@ double vec_mag(struct vector* vec) {
     return sqrt(vec->x * vec->x + vec->y * vec->y);
 }
 
-struct vector* vec_conj(struct vector* vec) {
-    struct vector* conj = malloc(sizeof(struct vector));
-    conj->x = vec->x;
-    conj->y = -vec->y;
-
-    return conj;
+void vec_conj(struct vector* vec) {
+    vec->y *= -1;
 }
 
 int vec_equ(struct vector* one, struct vector* two) {

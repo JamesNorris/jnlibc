@@ -18,7 +18,7 @@ extern void vec3_mult(struct vector3* vec, struct vector3* other);
 extern void vec3_div(struct vector3* vec, struct vector3* other);
 
 extern double vec3_mag(struct vector3* vec);
-extern struct vector3* vec3_norm(struct vector3* vec);
+extern void vec3_norm(struct vector3* vec);
 
 extern int vec3_equ(struct vector3* one, struct vector3* two);
 extern struct vector3* vec3_dup(struct vector3* vec);

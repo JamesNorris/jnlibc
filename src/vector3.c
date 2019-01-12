@@ -28,15 +28,12 @@ double vec3_mag(struct vector3* vec) {
     return sqrt(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
 }
 
-struct vector3* vec3_norm(struct vector3* vec) {
+void vec3_norm(struct vector3* vec) {
     double mag = vec3_mag(vec);
 
-    struct vector3* norm = malloc(sizeof(struct vector3));
-    norm->x = vec->x / mag;
-    norm->y = vec->y / mag;
-    norm->z = vec->z / mag;
-
-    return norm;
+    vec->x /= mag;
+    vec->y /= mag;
+    vec->z /= mag;
 }
 
 int vec3_equ(struct vector3* one, struct vector3* two) {
