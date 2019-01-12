@@ -24,8 +24,11 @@ void quat_mult(struct quaternion* quat, struct quaternion* other) {
 
 // inverse Hamilton product
 void quat_div(struct quaternion* quat, struct quaternion* other) {
-    struct quaternion* inv = quat_inverse(other);
+    struct quaternion* inv = quat_dup(other);
+
+    quat_inverse(inv);
     quat_mult(quat, inv);
+
     free(inv);
 }
 
@@ -40,38 +43,25 @@ double quat_mag(struct quaternion* quat) {
     return sqrt(quat->a * quat->a + quat->b * quat->b + quat->c * quat->c + quat->d * quat->d);
 }
 
-struct quaternion* quat_norm(struct quaternion* quat) {
-    double mag = quat_mag(quat);
-
-    struct quaternion* norm = malloc(sizeof(struct quaternion));
-    norm->a = quat->a / mag;
-    norm->b = quat->b / mag;
-    norm->c = quat->c / mag;
-    norm->d = quat->d / mag;
-
-    return norm;
+void quat_norm(struct quaternion* quat) {
+    struct quaternion* dup = quat_dup(quat);
+    quat_scale(quat, dup);
+    free(dup);
 }
 
-struct quaternion* quat_conj(struct quaternion* quat) {
-    struct quaternion* conj = malloc(sizeof(struct quaternion));
-    conj->a = quat->a;
-    conj->b = -quat->b;
-    conj->c = -quat->c;
-    conj->d = -quat->d;
-
-    return conj;
+void quat_conj(struct quaternion* quat) {
+    quat->b *= -1;
+    quat->c *= -1;
+    quat->d *= -1;
 }
 
-struct quaternion* quat_inverse(struct quaternion* quat) {
-    double inv_mag = 1.0 / quat_mag(quat);
+void quat_inverse(struct quaternion* quat) {
+    double inv_scale = 1.0 / quat_mag(quat);
 
-    struct quaternion* inv = quat_dup(quat);
-    inv->a *= inv_mag;
-    inv->b *= -inv_mag;
-    inv->c *= -inv_mag;
-    inv->d *= -inv_mag;
-
-    return inv;
+    quat->a *= inv_scale;
+    quat->b *= -inv_scale;
+    quat->c *= -inv_scale;
+    quat->d *= -inv_scale;
 }
 
 void quat_rot(struct quaternion* quat, struct vector3* vec) {
@@ -81,7 +71,8 @@ void quat_rot(struct quaternion* quat, struct vector3* vec) {
     axis->c = vec->y;
     axis->d = vec->z;
 
-    struct quaternion* inv = quat_inverse(quat);
+    struct quaternion* inv = quat_dup(quat);
+    quat_inverse(inv);
 
     quat_mult(quat, axis);
     quat_mult(quat, inv);
@@ -95,7 +86,7 @@ int quat_equ(struct quaternion* one, struct quaternion* two) {
 }
 
 struct quaternion* quat_dup(struct quaternion* quat) {
-    struct quaternion* copc = malloc(sizeof(struct quaternion));
-    memcpy(quat, copc, sizeof(struct quaternion));
-    return copc;
+    struct quaternion* copy = malloc(sizeof(struct quaternion));
+    memcpy(quat, copy, sizeof(struct quaternion));
+    return copy;
 }
