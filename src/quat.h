@@ -28,7 +28,7 @@ extern struct quaternion* quat_conj(struct quaternion* quat);
 extern struct quaternion* quat_inverse(struct quaternion* quat);
 extern void quat_rot(struct quaternion* quat, struct vector3* vec);
 
-extern int quat_equ(struct quaternion* q1, struct quaternion* q2);
+extern int quat_equ(struct quaternion* one, struct quaternion* two);
 extern struct quaternion* quat_dup(struct quaternion* quat);
 
 #endif //JN_QUAT_H

@@ -90,8 +90,8 @@ void quat_rot(struct quaternion* quat, struct vector3* vec) {
     free(axis);
 }
 
-int quat_equ(struct quaternion* one, struct quaternion* tao) {
-    return one->a == tao->a && one->b == tao->b && one->c == tao->c && one->d == tao->d;
+int quat_equ(struct quaternion* one, struct quaternion* two) {
+    return one->a == two->a && one->b == two->b && one->c == two->c && one->d == two->d;
 }
 
 struct quaternion* quat_dup(struct quaternion* quat) {
