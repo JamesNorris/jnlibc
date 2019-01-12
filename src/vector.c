@@ -31,7 +31,7 @@ double vec_mag(struct vector* vec) {
 struct vector* vec_norm(struct vector* vec) {
     double mag = vec_mag(vec);
 
-    struct vector* norm = (struct vector*) malloc(sizeof(struct vector));
+    struct vector* norm = malloc(sizeof(struct vector));
     norm->x = vec->x / mag;
     norm->y = vec->y / mag;
     norm->z = vec->z / mag;
@@ -44,9 +44,7 @@ int vec_equ(struct vector* one, struct vector* two) {
 }
 
 struct vector* vec_dup(struct vector* vec) {
-    struct vector* copy = (struct vector*) malloc(sizeof(struct vector));
-    copy->x = vec->x;
-    copy->y = vec->y;
-    copy->z = vec->z;
+    struct vector* copy = malloc(sizeof(struct vector));
+    memcpy(vec, copy, sizeof(struct vector));
     return copy;
 }
