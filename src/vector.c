@@ -3,44 +3,37 @@
 void vec_add(struct vector* vec, struct vector* other) {
     vec->x += other->x;
     vec->y += other->y;
-    vec->z += other->z;
 }
 
 void vec_sub(struct vector* vec, struct vector* other) {
     vec->x -= other->x;
     vec->y -= other->y;
-    vec->z -= other->z;
 }
 
 void vec_mult(struct vector* vec, struct vector* other) {
     vec->x *= other->x;
     vec->y *= other->y;
-    vec->z *= other->z;
 }
 
 void vec_div(struct vector* vec, struct vector* other) {
     vec->x /= other->x;
     vec->y /= other->y;
-    vec->z /= other->z;
 }
 
 double vec_mag(struct vector* vec) {
-    return sqrt(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
+    return sqrt(vec->x * vec->x + vec->y * vec->y);
 }
 
-struct vector* vec_norm(struct vector* vec) {
-    double mag = vec_mag(vec);
+struct vector* vec_conj(struct vector* vec) {
+    struct vector* conj = malloc(sizeof(struct vector));
+    conj->x = vec->x;
+    conj->y = -vec->y;
 
-    struct vector* norm = malloc(sizeof(struct vector));
-    norm->x = vec->x / mag;
-    norm->y = vec->y / mag;
-    norm->z = vec->z / mag;
-
-    return norm;
+    return conj;
 }
 
 int vec_equ(struct vector* one, struct vector* two) {
-    return one->x == two->x && one->y == two->y && one->z == two->z;
+    return one->x == two->x && one->y == two->y;
 }
 
 struct vector* vec_dup(struct vector* vec) {
